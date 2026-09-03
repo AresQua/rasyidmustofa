@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Rasyid Mustofa — Portofolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F6F2;
+    --ink:#1B1D1A;
+    --stone:#6E7066;
+    --line:#D9D7CE;
+    --pine:#2E4034;
+    --pine-soft:#7C9385;
+    --photo-bg:#C9C7BC;
+  }
+  html{scroll-behavior:smooth;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:'Inter',sans-serif;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 32px;}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:30px 0;border-bottom:1px solid var(--line);
+    position:sticky;top:0;background:rgba(247,246,242,0.92);
+    backdrop-filter:blur(6px);z-index:50;
+  }
+  .logo{font-family:'Newsreader',serif;font-size:19px;letter-spacing:0.02em;}
+  .navlinks{display:flex;gap:34px;font-size:13px;color:var(--stone);}
+  .navlinks a{color:inherit;text-decoration:none;position:relative;padding-bottom:3px;transition:color .35s ease;}
+  .navlinks a::after{
+    content:"";position:absolute;left:0;bottom:0;width:0;height:1px;
+    background:var(--pine);transition:width .35s ease;
+  }
+  .navlinks a:hover,.navlinks a.active{color:var(--ink);}
+  .navlinks a:hover::after,.navlinks a.active::after{width:100%;}
+
+  /* HERO + statistik senyap (pengganti counter neon) */
+  .hero{
+    padding:84px 0 72px;border-bottom:1px solid var(--line);
+    display:grid;grid-template-columns:1fr 260px;gap:56px;align-items:center;
+  }
+  .hero-role{font-size:14px;color:var(--pine);margin-bottom:20px;}
+  .hero h1{
+    font-family:'Newsreader',serif;font-weight:400;
+    font-size:clamp(30px,4vw,46px);line-height:1.22;margin-bottom:22px;
+  }
+  .hero p{font-size:15px;color:var(--stone);max-width:44ch;margin-bottom:30px;}
+  .hero-meta{display:flex;gap:28px;font-size:13px;color:var(--stone);flex-wrap:wrap;padding-top:26px;border-top:1px solid var(--line);}
+  .hero-meta div span{display:block;color:var(--ink);font-size:14px;margin-top:3px;}
+
+  .hero-photo{
+    width:100%;aspect-ratio:3/4;background:var(--photo-bg);
+    border:1px solid var(--line);position:relative;overflow:hidden;
+  }
+  .hero-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  section{padding:76px 0;border-bottom:1px solid var(--line);}
+  .section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:44px;}
+  .section-head h2{font-family:'Newsreader',serif;font-weight:400;font-size:25px;}
+  .section-head span{font-size:13px;color:var(--stone);}
+
+  /* TIMELINE pengalaman — versi senyap dari timeline alay tadi */
+  .timeline{position:relative;padding-left:28px;}
+  .timeline::before{
+    content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--line);
+  }
+  .timeline-item{position:relative;padding-bottom:44px;}
+  .timeline-item:last-child{padding-bottom:0;}
+  .timeline-dot{
+    position:absolute;left:-28px;top:5px;width:9px;height:9px;border-radius:50%;
+    background:var(--paper);border:1.5px solid var(--pine);
+  }
+  .tl-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:4px;}
+  .tl-title{font-family:'Newsreader',serif;font-size:18px;font-style:italic;}
+  .tl-date{font-size:12px;color:var(--stone);}
+  .tl-org{font-size:13px;color:var(--stone);margin-bottom:12px;}
+  .tl-list{list-style:none;}
+  .tl-list li{font-size:14px;color:var(--stone);padding-left:16px;position:relative;margin-bottom:6px;max-width:60ch;}
+  .tl-list li::before{content:"—";position:absolute;left:0;color:var(--pine-soft);}
+
+  /* PROYEK — satu kartu senyap per proyek, bukan grid berwarna-warni */
+  .project-item{padding:0;margin-bottom:0;}
+  .project-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+  .project-title{font-family:'Newsreader',serif;font-size:20px;font-style:italic;}
+  .project-title a{color:inherit;text-decoration:none;border-bottom:1px solid var(--pine-soft);transition:border-color .3s ease,color .3s ease;}
+  .project-title a:hover{color:var(--pine);border-color:var(--pine);}
+  .project-tag{font-size:12px;color:var(--stone);}
+  .project-desc{font-size:14px;color:var(--stone);max-width:64ch;margin-bottom:14px;}
+  .project-features{list-style:none;margin-bottom:16px;}
+  .project-features li{font-size:14px;color:var(--stone);padding-left:16px;position:relative;margin-bottom:6px;max-width:60ch;}
+  .project-features li::before{content:"—";position:absolute;left:0;color:var(--pine-soft);}
+  .project-link{font-size:13px;color:var(--pine);text-decoration:none;border-bottom:1px solid var(--pine-soft);padding-bottom:2px;transition:color .3s ease,border-color .3s ease;}
+  .project-link:hover{color:var(--ink);border-color:var(--ink);}
+
+  /* KEAHLIAN — list polos, bukan progress bar */
+  .skills-cols{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:12px;}
+  .skills-col h3{font-size:12px;color:var(--stone);font-weight:500;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.03em;}
+  .skills-list{list-style:none;font-size:14px;}
+  .skills-list li{padding:11px 0;border-top:1px solid var(--line);color:var(--stone);}
+  .skills-list li:last-child{border-bottom:1px solid var(--line);}
+
+  .about-grid{display:grid;grid-template-columns:200px 1fr;gap:44px;}
+  .about-photo{width:100%;aspect-ratio:1/1;background:var(--photo-bg);border:1px solid var(--line);overflow:hidden;}
+  .about-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .about-text p{color:var(--stone);font-size:15px;margin-bottom:16px;max-width:56ch;}
+  .about-text p strong{color:var(--ink);font-weight:500;}
+
+  .edu-item{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;border-top:1px solid var(--line);flex-wrap:wrap;gap:6px;}
+  .edu-item:last-child{border-bottom:1px solid var(--line);}
+  .edu-name{font-family:'Newsreader',serif;font-size:16px;font-style:italic;}
+  .edu-detail{font-size:12px;color:var(--stone);}
+
+  .contact{border-bottom:none;padding-bottom:100px;}
+  .contact h2{
+    font-family:'Newsreader',serif;font-weight:400;font-style:italic;
+    font-size:clamp(26px,3.2vw,36px);max-width:20ch;margin-bottom:30px;
+  }
+  .contact-row{display:flex;gap:44px;font-size:14px;flex-wrap:wrap;}
+  .contact-row a{color:var(--pine);text-decoration:none;border-bottom:1px solid var(--pine-soft);padding-bottom:2px;transition:color .3s ease,border-color .3s ease;}
+  .contact-row a:hover{color:var(--ink);border-color:var(--ink);}
+  .contact-row div{color:var(--stone);}
+
+  footer{padding:26px 0;font-size:12px;color:var(--stone);display:flex;justify-content:space-between;}
+
+  /* BACK TO TOP — bulat kecil, garis tipis, bukan bulat neon melayang */
+  .back-to-top{
+    position:fixed;right:28px;bottom:28px;width:40px;height:40px;border-radius:50%;
+    background:var(--paper);border:1px solid var(--line);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    opacity:0;pointer-events:none;transition:opacity .4s ease,border-color .3s ease;
+    font-size:16px;z-index:40;
+  }
+  .back-to-top.visible{opacity:1;pointer-events:auto;}
+  .back-to-top:hover{border-color:var(--pine);}
+
+  @media(max-width:640px){
+    .wrap{padding:0 20px;}
+    .navlinks{gap:18px;font-size:12px;}
+    .hero{grid-template-columns:1fr;}
+    .hero-photo{max-width:220px;}
+    .hero-stats{gap:26px;flex-wrap:wrap;}
+    .about-grid{grid-template-columns:1fr;}
+    .about-photo{max-width:150px;}
+    .skills-cols{grid-template-columns:1fr;}
+    .contact-row{flex-direction:column;gap:14px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <div class="logo">Rasyid Mustofa</div>
+    <div class="navlinks">
+      <a href="#experience">Pengalaman</a>
+      <a href="#projects">Proyek</a>
+      <a href="#skills">Keahlian</a>
+      <a href="#about">Profil</a>
+      <a href="#contact">Kontak</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="hero">
+    <div class="reveal">
+      <div class="hero-role">IT Support & Administrasi Operasional</div>
+      <h1>Menjaga sistem dan data tetap rapi, teliti dari awal sampai akhir.</h1>
+      <p>Lulusan Teknik Komputer dan Jaringan dengan pengalaman langsung di pemeliharaan perangkat, jaringan, administrasi data, hingga operasional harian.</p>
+      <div class="hero-meta">
+        <div>Berbasis di <span>Bogor, Jawa Barat</span></div>
+        <div>Status <span>IT Technician, penuh waktu</span></div>
+        <div>Latar <span>TKJ · Mahasiswa Sistem Informasi</span></div>
+      </div>
+    </div>
+    <div class="hero-photo reveal"><img src="foto1.jpg" alt="Foto profil Rasyid Mustofa"></div>
+  </section>
+
+  <section id="experience">
+    <div class="section-head reveal">
+      <h2>Pengalaman kerja</h2>
+      <span>Kronologis</span>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="tl-top">
+          <div class="tl-title">IT Technician</div>
+          <div class="tl-date">Juli 2026 — Sekarang</div>
+        </div>
+        <div class="tl-org">PT Karya Adi Sentosa — Penempatan SMKN 2 Bogor</div>
+        <ul class="tl-list">
+          <li>Monitoring dan pemeliharaan perangkat komputer serta peralatan praktik laboratorium TKJ.</li>
+          <li>Troubleshooting hardware, software, dan permasalahan teknis dasar.</li>
+          <li>Monitoring jaringan laboratorium untuk mendukung kegiatan pembelajaran dan praktik.</li>
+          <li>Mengelola peminjaman dan ketersediaan peralatan praktik, serta pengecekan aset berkala.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="tl-top">
+          <div class="tl-title">Data Admin Staff (PKL)</div>
+          <div class="tl-date">Des 2025 — Mar 2026</div>
+        </div>
+        <div class="tl-org">PT Adira Dinamika Multi Finance Tbk, Cabang Bogor 1</div>
+        <ul class="tl-list">
+          <li>Menginput dan mengelola data pembiayaan nasabah secara teliti.</li>
+          <li>Verifikasi data untuk memastikan kesesuaian dan akurasi dokumen.</li>
+          <li>Mengarsipkan dokumen administrasi secara sistematis sesuai prosedur perusahaan.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="tl-top">
+          <div class="tl-title">Pelayan / Kasir (Part-Time)</div>
+          <div class="tl-date">2024 — Sekarang, tiap Sabtu</div>
+        </div>
+        <div class="tl-org">Tambi Snack & Es Teh Tambi</div>
+        <ul class="tl-list">
+          <li>Mengelola transaksi penjualan dan pencatatan operasional harian.</li>
+          <li>Dipercaya menangani operasional dua toko sekaligus secara mandiri.</li>
+          <li>Membantu proses pembukaan toko dan memastikan operasional berjalan lancar.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-head reveal">
+      <h2>Proyek</h2>
+      <span>01 proyek</span>
+    </div>
+
+    <div class="project-item reveal">
+      <div class="project-top">
+        <div class="project-title"><a href="https://neura-acta.vercel.app/" target="_blank" rel="noopener noreferrer">Neura</a></div>
+        <div class="project-tag">Aplikasi web · Manajemen keuangan pribadi</div>
+      </div>
+      <p class="project-desc">
+        Aplikasi pencatatan keuangan pribadi berbasis web — mencatat pemasukan dan pengeluaran harian, menampilkan grafik tren saldo, dan meringkas kondisi keuangan secara real-time.
+      </p>
+      <ul class="project-features">
+        <li>Grafik tren saldo dengan rentang waktu yang bisa disesuaikan (harian hingga tahunan).</li>
+        <li>Ringkasan otomatis pemasukan, pengeluaran, dan selisih saldo.</li>
+        <li>Log transaksi rinci dengan kategori, keterangan, dan saldo berjalan per transaksi.</li>
+        <li>Fitur permintaan laporan untuk rekap keuangan.</li>
+      </ul>
+      <a class="project-link" href="https://neura-acta.vercel.app/" target="_blank" rel="noopener noreferrer">Lihat proyek langsung →</a>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head reveal">
+      <h2>Keahlian</h2>
+      <span>Teknis & administratif</span>
+    </div>
+    <div class="skills-cols reveal">
+      <div class="skills-col">
+        <h3>Teknis</h3>
+        <ul class="skills-list">
+          <li>Dasar troubleshooting komputer & jaringan</li>
+          <li>Pemeliharaan perangkat & peralatan praktik</li>
+          <li>Dasar jaringan komputer</li>
+        </ul>
+      </div>
+      <div class="skills-col">
+        <h3>Administrasi & operasional</h3>
+        <ul class="skills-list">
+          <li>Microsoft Excel & Microsoft Word</li>
+          <li>Penginputan, verifikasi, dan pengarsipan data</li>
+          <li>Pencatatan transaksi & laporan harian</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-head reveal">
+      <h2>Profil</h2>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-photo"><img src="foto2.jpg" alt="Foto profil Rasyid Mustofa"></div>
+      <div class="about-text">
+        <p>
+          <strong>Saya Rasyid, lulusan Teknik Komputer dan Jaringan SMK Negeri 2 Bogor</strong> yang saat ini aktif bekerja sebagai IT Technician sambil menjalani pengalaman part-time di sisi operasional toko — terbiasa berpindah antara sisi teknis dan administratif tanpa kehilangan ketelitian di keduanya.
+          <br><br>
+          Saya juga pernah menjalani PKL di administrasi data pembiayaan, serta aktif di organisasi sekolah sebagai Ketua Divisi Umum. Saat ini saya juga melanjutkan studi di jenjang S1 Sistem Informasi, Universitas Terbuka, sambil tetap bekerja penuh waktu.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="section-head reveal">
+      <h2>Pendidikan & organisasi</h2>
+    </div>
+    <div class="edu-item reveal">
+      <div class="edu-name">Universitas Terbuka</div>
+      <div class="edu-detail">S1 Sistem Informasi · Mahasiswa aktif, sambil bekerja penuh waktu</div>
+    </div>
+    <div class="edu-item reveal">
+      <div class="edu-name">SMK Negeri 2 Bogor</div>
+      <div class="edu-detail">Teknik Komputer dan Jaringan · 2023 — 2026</div>
+    </div>
+    <div class="edu-item reveal">
+      <div class="edu-name">Ketua Divisi Umum, Karya Ilmiah Remaja Teknologi</div>
+      <div class="edu-detail">SMKN 2 Bogor</div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact reveal">
+    <h2>Terbuka untuk peran IT support maupun administrasi.</h2>
+    <div class="contact-row">
+      <a href="mailto:muhammadrasyid2512@gmail.com">muhammadrasyid2512@gmail.com</a>
+      <div>0881-1712-514</div>
+      <div>Bogor, Jawa Barat</div>
+    </div>
+  </section>
+
+  <footer>
+    <div>© 2026 Muhammad Rasyid Mustofa</div>
+    <div>Dibuat dengan HTML & CSS</div>
+  </footer>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">↑</button>
+
+<script>
+  // fade-in senyap saat scroll
+  const revealObs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); revealObs.unobserve(e.target); }
+    });
+  },{threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+  // nav aktif sesuai section yang lagi keliatan
+  const sections = document.querySelectorAll('section[id]');
+  function highlightNav(){
+    const y = window.scrollY + 160;
+    sections.forEach(sec=>{
+      const top = sec.offsetTop, h = sec.offsetHeight, id = sec.id;
+      const link = document.querySelector(`.navlinks a[href="#${id}"]`);
+      if(link && y >= top && y < top+h){
+        document.querySelectorAll('.navlinks a').forEach(a=>a.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }
+  window.addEventListener('scroll', highlightNav, {passive:true});
+
+  // back to top — muncul senyap, bukan langsung nongol
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', ()=>{
+    backToTop.classList.toggle('visible', window.scrollY > 500);
+  }, {passive:true});
+  backToTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+
+</body>
+</html>
