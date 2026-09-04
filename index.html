@@ -17,7 +17,9 @@
     --pine-soft:#7C9385;
     --photo-bg:#C9C7BC;
   }
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth;overflow-x:hidden;}
+  body{overflow-x:hidden;}
+  body.menu-locked{overflow:hidden;}
   *{margin:0;padding:0;box-sizing:border-box;}
   body{
     background:var(--paper);color:var(--ink);
@@ -165,10 +167,11 @@
     .navlinks a{padding:14px 0;border-bottom:1px solid var(--line);}
     .nav-overlay{display:none;position:fixed;inset:0;background:rgba(27,29,26,0.25);z-index:40;}
     .nav-overlay.open{display:block;}
-    .hero{grid-template-columns:1fr;}
-    .hero-photo{max-width:220px;}
+    .hero{grid-template-columns:1fr;gap:28px;}
+    .hero-photo{max-width:200px;margin:8px auto 0;}
     .about-grid{grid-template-columns:1fr;}
-    .about-photo{max-width:150px;}
+    .about-photo{max-width:140px;margin:0 auto 20px;}
+    .about-text{text-align:left;}
     .skills-cols{grid-template-columns:1fr;}
     .contact-row{flex-direction:column;gap:14px;}
   }
@@ -375,12 +378,14 @@
     navToggle.classList.remove('open');
     navLinksEl.classList.remove('open');
     navOverlay.classList.remove('open');
+    document.body.classList.remove('menu-locked');
   }
   if(navToggle){
     navToggle.addEventListener('click', ()=>{
       const isOpen = navLinksEl.classList.toggle('open');
       navToggle.classList.toggle('open', isOpen);
       navOverlay.classList.toggle('open', isOpen);
+      document.body.classList.toggle('menu-locked', isOpen);
     });
     navOverlay.addEventListener('click', closeMenu);
     navLinksEl.querySelectorAll('a').forEach(a=> a.addEventListener('click', closeMenu));
