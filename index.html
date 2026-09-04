@@ -35,15 +35,21 @@
     position:sticky;top:0;background:rgba(247,246,242,0.92);
     backdrop-filter:blur(6px);z-index:50;
   }
-  .logo{font-family:'Newsreader',serif;font-size:19px;letter-spacing:0.02em;}
+  .logo{font-family:'Newsreader',serif;font-size:19px;letter-spacing:0.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70%;}
   .navlinks{display:flex;gap:34px;font-size:13px;color:var(--stone);}
-  .navlinks a{color:inherit;text-decoration:none;position:relative;padding-bottom:3px;transition:color .35s ease;}
+  .navlinks a{color:inherit;text-decoration:none;position:relative;padding-bottom:3px;transition:color .35s ease;white-space:nowrap;}
   .navlinks a::after{
     content:"";position:absolute;left:0;bottom:0;width:0;height:1px;
     background:var(--pine);transition:width .35s ease;
   }
   .navlinks a:hover,.navlinks a.active{color:var(--ink);}
   .navlinks a:hover::after,.navlinks a.active::after{width:100%;}
+
+  .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:4px;flex-shrink:0;}
+  .nav-toggle span{display:block;width:20px;height:1px;background:var(--ink);margin:5px 0;transition:transform .3s ease,opacity .3s ease;}
+  .nav-toggle.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+  .nav-toggle.open span:nth-child(2){opacity:0;}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
   /* HERO + statistik senyap (pengganti counter neon) */
   .hero{
@@ -146,10 +152,21 @@
 
   @media(max-width:640px){
     .wrap{padding:0 20px;}
-    .navlinks{gap:18px;font-size:12px;}
+    .logo{font-size:16px;max-width:60%;}
+    .nav-toggle{display:block;}
+    .navlinks{
+      display:flex;flex-direction:column;gap:0;
+      position:fixed;top:0;right:0;height:100vh;width:min(72vw,280px);
+      background:var(--paper);border-left:1px solid var(--line);
+      padding:90px 28px 28px;font-size:15px;
+      transform:translateX(100%);transition:transform .4s ease;z-index:45;
+    }
+    .navlinks.open{transform:translateX(0);}
+    .navlinks a{padding:14px 0;border-bottom:1px solid var(--line);}
+    .nav-overlay{display:none;position:fixed;inset:0;background:rgba(27,29,26,0.25);z-index:40;}
+    .nav-overlay.open{display:block;}
     .hero{grid-template-columns:1fr;}
     .hero-photo{max-width:220px;}
-    .hero-stats{gap:26px;flex-wrap:wrap;}
     .about-grid{grid-template-columns:1fr;}
     .about-photo{max-width:150px;}
     .skills-cols{grid-template-columns:1fr;}
@@ -158,11 +175,15 @@
 </style>
 </head>
 <body>
+<div class="nav-overlay" id="navOverlay"></div>
 
 <div class="wrap">
   <nav>
     <div class="logo">Rasyid Mustofa</div>
-    <div class="navlinks">
+    <button class="nav-toggle" id="navToggle" aria-label="Buka menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="navlinks" id="navLinks">
       <a href="#experience">Pengalaman</a>
       <a href="#projects">Proyek</a>
       <a href="#skills">Keahlian</a>
@@ -345,6 +366,25 @@
     });
   },{threshold:0.15});
   document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+  // hamburger menu — buka/tutup senyap di layar sempit
+  const navToggle = document.getElementById('navToggle');
+  const navLinksEl = document.getElementById('navLinks');
+  const navOverlay = document.getElementById('navOverlay');
+  function closeMenu(){
+    navToggle.classList.remove('open');
+    navLinksEl.classList.remove('open');
+    navOverlay.classList.remove('open');
+  }
+  if(navToggle){
+    navToggle.addEventListener('click', ()=>{
+      const isOpen = navLinksEl.classList.toggle('open');
+      navToggle.classList.toggle('open', isOpen);
+      navOverlay.classList.toggle('open', isOpen);
+    });
+    navOverlay.addEventListener('click', closeMenu);
+    navLinksEl.querySelectorAll('a').forEach(a=> a.addEventListener('click', closeMenu));
+  }
 
   // nav aktif sesuai section yang lagi keliatan
   const sections = document.querySelectorAll('section[id]');
